@@ -2,13 +2,11 @@ import React from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import ContactMailIcon from '@mui/icons-material/ContactMail';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import GarageIcon from '@mui/icons-material/Garage';
 import RateReviewIcon from '@mui/icons-material/RateReview';
-import ReviewsIcon from '@mui/icons-material/Reviews';
-import TooltipCus from './components/common/Tooltip';
-import VisualizacionBusquedaTecnicos from './pages/visualizacion-tecnicos/VisualizacionFiltroBusqueda';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import Dashboard from './pages/dashboard/Dashboard';
 import MisTurnos from './pages/visualizar-mis-turnos/MisTurnos';
 import AgendaTaller from './pages/visualizar-agenda/AgendaTaller';
@@ -17,70 +15,117 @@ import FormularioCliente from './pages/turnos/turno-service-cliente/TurnoService
 import Services from './pages/visualizar-services/Services';
 import FormularioEvaluacionAdmin from './pages/turnos/turno-evaluacion-admin/TurnoEvaluacionParaAdmin';
 import FormularioEvaluacionCliente from './pages/turnos/turno-evaluacion-cliente/TurnoEvaluacionCliente';
+import Reportes from './pages/reportes/Reportes';
+
+import Roles from '../../roles';
+import VisualizacionTecnicos from './pages/visualizacion-tecnicos/VisualizacionTecnicos';
 
 const GROUP_1_PAGES_CONFIG = [
   {
     id: 'g1-Dashboard',
     name: 'Dashboard',
     href: '/dashboard',
-    icon: <TooltipCus icon={<DashboardIcon />} title="Dashboard" />,
-    page: <Dashboard />,
+    icon: <DashboardIcon />,
+    page: <Dashboard />, // HECHO
+    roles: [
+      Roles.TECNICO,
+      Roles.IT],
   },
   {
     id: 'g1-AgendaTurnos',
     name: 'Turnos',
     href: '/agenda-turnos',
-    icon: <TooltipCus icon={<ListAltIcon />} title="Turnos" />,
-    page: <AgendaTaller />,
+    icon: <ListAltIcon />,
+    page: <AgendaTaller />, // HECHO
+    roles: [
+      Roles.SUPERVISOR_TECNICO,
+      Roles.IT],
   },
   {
     id: 'g1-Tecnicos',
-    name: 'Técnicos',
+    name: 'Datos de técnicos',
     href: '/informacion-tecnicos',
-    icon: <TooltipCus icon={<PersonSearchIcon />} title="Técnicos" />,
-    page: <VisualizacionBusquedaTecnicos />,
+    icon: <PersonSearchIcon />,
+    page: <VisualizacionTecnicos />,
+    roles: [
+      Roles.SUPERVISOR_TECNICO,
+      Roles.IT],
   },
   {
     id: 'g1-MisTurnos',
     name: 'Mis turnos',
     href: '/mis-turnos',
-    icon: <TooltipCus icon={<ListAltIcon />} title="Mis turnos" />,
-    page: <MisTurnos />,
+    icon: <ListAltIcon />,
+    page: <MisTurnos />, // HECHO
+    roles: [
+      Roles.TECNICO,
+      Roles.IT],
   },
   {
     id: 'g1-TurnosServiceCliente',
-    name: 'Turnos de service',
+    name: 'Turno para service vehicular',
     href: '/turnos-service',
-    icon: <TooltipCus icon={<ContactMailIcon />} title="Turnos de service" />,
+    icon: <EditCalendarIcon />,
     page: <FormularioCliente />,
+    roles: [
+      Roles.CLIENTE,
+      Roles.IT],
   },
   {
     id: 'g1-Services',
     name: 'Services',
     href: '/services',
-    icon: <TooltipCus icon={<DesignServicesIcon />} title="Services" />,
-    page: <Services />,
+    icon: <DesignServicesIcon />,
+    page: <Services />, // HECHO
+    roles: [
+      Roles.SUPERVISOR_TECNICO,
+      Roles.IT,
+    ],
   },
   {
     id: 'g1-Talleres',
     name: 'Talleres',
     href: '/talleres',
-    icon: <TooltipCus icon={<GarageIcon />} title="Talleres" />,
+    icon: <GarageIcon />,
     page: <Talleres />,
+    roles: [
+      Roles.ADMINISTRADOR,
+      Roles.IT,
+    ],
   },
   {
     id: 'g1-TurnoEvaluacionAdmin',
-    name: 'Evaluación admin.',
-    href: '/turno-evaluación-admin',
-    icon: <TooltipCus icon={<RateReviewIcon />} title="Evaluación admin." />,
+    name: 'Turno para evaluación técnica',
+    href: '/turno-evaluacion-administrativo',
+    icon: <RateReviewIcon />,
     page: <FormularioEvaluacionAdmin />,
+    roles: [
+      Roles.ADMINISTRADOR,
+      Roles.IT,
+    ],
   },
   {
     id: 'g1-TurnoEvaluacionCliente',
-    name: 'Evaluación cliente',
-    href: '/turno-evaluación-cliente',
-    icon: <TooltipCus icon={<ReviewsIcon />} title="Evaluación cliente" />,
+    name: 'Turno para evaluación técnica',
+    href: '/turno-evaluacion-cliente',
+    icon: <RateReviewIcon />,
     page: <FormularioEvaluacionCliente />,
+    soloUrl: true,
+    roles: [
+      Roles.CLIENTE,
+      Roles.IT,
+    ],
+  },
+  {
+    id: 'g1-ReportesSupervisor',
+    name: 'Reportes',
+    href: '/reportes',
+    icon: <AssessmentIcon />,
+    page: <Reportes />, // HECHO
+    roles: [
+      Roles.SUPERVISOR_TECNICO,
+      Roles.IT,
+    ],
   },
 ];
 

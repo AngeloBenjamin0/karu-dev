@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable max-len */
@@ -21,144 +22,8 @@ const Cotizar = () => {
   const [searchKilometraje, setKilometraje] = useState('');
   const [searchCombustible, setSearchCombustible] = useState('');
   const [searchImportado, setImportado] = useState('');
-
-  // función para traer los datos de la API
-  const URL = 'https://gadmin-backend-production.up.railway.app/api/v1/vehicle/getByStatus/DISPONIBLE';// sacar datos de un json
-  // para traer datos de localData en la tabla cotizar Vehiculos
-  const localData = [
-    {
-      id: '1',
-      patente: 'ABC123',
-      sucursal: 'Sucursal A',
-      anio: 2020,
-      marca: 'Toyota',
-      modelo: 'Corolla',
-      kilometraje: 5000,
-      combustible: 'Nafta',
-      importado: 'no',
-      reserva: 'si',
-    },
-    {
-      id: '2',
-      patente: 'DEF456',
-      sucursal: 'Sucursal B',
-      anio: 2019,
-      marca: 'Honda',
-      modelo: 'Civic',
-      kilometraje: 8000,
-      combustible: 'Nafta',
-      importado: 'no',
-      reserva: 'no',
-    },
-    {
-      id: '3',
-      patente: 'GHI789',
-      sucursal: 'Sucursal C',
-      anio: 2021,
-      marca: 'Ford',
-      modelo: 'Mustang',
-      kilometraje: 3000,
-      combustible: 'Nafta',
-      importado: 'si',
-      reserva: 'si',
-    },
-    {
-      id: '4',
-      patente: 'JKL012',
-      sucursal: 'Sucursal A',
-      anio: 2022,
-      marca: 'Chevrolet',
-      modelo: 'Camaro',
-      kilometraje: 2000,
-      combustible: 'Nafta',
-      importado: 'no',
-      reserva: 'no',
-    },
-    {
-      id: '5',
-      patente: 'MNO345',
-      sucursal: 'Sucursal B',
-      anio: 2020,
-      marca: 'Volkswagen',
-      modelo: 'Golf',
-      kilometraje: 7000,
-      combustible: 'Nafta',
-      importado: 'no',
-      reserva: 'si',
-    },
-    {
-      id: '6',
-      patente: 'PQR678',
-      sucursal: 'Sucursal C',
-      anio: 2019,
-      marca: 'Toyota',
-      modelo: 'Rav4',
-      kilometraje: 10000,
-      combustible: 'Híbrido',
-      importado: 'no',
-      reserva: 'no',
-    },
-    {
-      id: '7',
-      patente: 'STU901',
-      sucursal: 'Sucursal A',
-      anio: 2021,
-      marca: 'Mazda',
-      modelo: 'CX-5',
-      kilometraje: 4000,
-      combustible: 'Nafta',
-      importado: 'si',
-      reserva: 'si',
-    },
-    {
-      id: '8',
-      patente: 'VWX234',
-      sucursal: 'Sucursal B',
-      anio: 2022,
-      marca: 'Nissan',
-      modelo: 'Sentra',
-      kilometraje: 3000,
-      combustible: 'Nafta',
-      importado: 'no',
-      reserva: 'no',
-    },
-    {
-      id: '9',
-      patente: 'YZA567',
-      sucursal: 'Sucursal C',
-      anio: 2020,
-      marca: 'Honda',
-      modelo: 'Accord',
-      kilometraje: 6000,
-      combustible: 'Nafta',
-      importado: 'no',
-      reserva: 'si',
-    },
-    {
-      id: '10',
-      patente: 'BCD-890',
-      sucursal: 'Sucursal A',
-      anio: 2021,
-      marca: 'Ford',
-      modelo: 'Explorer',
-      kilometraje: 8000,
-      combustible: 'Nafta',
-      importado: 'si',
-      reserva: 'no',
-    },
-    {
-      id: 21,
-      patente: 'XYZ987',
-      sucursal: 'Sucursal B',
-      marca: 'Volkswagen',
-      anio: 2021,
-      modelo: 'Tiguan',
-      kilometraje: 5000,
-      combustible: 'Diésel',
-      importado: 'no',
-      reserva: 'si',
-    },
-  ];
+  const [searchMin, setMin] = useState('');
+  const [searchMax, setMax] = useState('');
 
   // datos que traemos
   const showData = async () => {
@@ -182,6 +47,10 @@ const Cotizar = () => {
       setSearchCombustible(value);
     } else if (name === 'searchImportado') {
       setImportado(value);
+    } else if (name === 'searchMin') {
+      setMin(value);
+    } else if (name === 'searchMax') {
+      setMax(value);
     }
   };
   // metodo de filtrado 1
@@ -204,8 +73,6 @@ const Cotizar = () => {
      showData()
    }, []) */
   useEffect(() => {
-    // mostrar datos locales
-    // setVehiculos(localData);
     // mostrar datos desde API
     showData();
   }, []);
@@ -216,8 +83,13 @@ const Cotizar = () => {
     const modeloMatch = vehiculo.model.toLowerCase().includes(searchModelo.toLowerCase());
     const kilometrajeMatch = vehiculo.kilometers.toString().includes(searchKilometraje);
     const combustibleMatch = vehiculo.fuelType.toLowerCase().includes(searchCombustible.toLowerCase());
-    const importadoMatch = vehiculo.status.toLowerCase().includes(searchImportado.toLowerCase());
-    return marcaMatch && modeloMatch && anioMatch && kilometrajeMatch && combustibleMatch && importadoMatch;
+    const importadoMatch = vehiculo.origin.toLowerCase().includes(searchImportado.toLowerCase());
+    // filtros de precio
+    const precioMatch = (!searchMin && !searchMax)
+      || (searchMin && searchMax && vehiculo.sellPrice >= parseFloat(searchMin) && vehiculo.sellPrice <= parseFloat(searchMax))
+      || (searchMin && !searchMax && vehiculo.sellPrice >= parseFloat(searchMin))
+      || (!searchMin && searchMax && vehiculo.sellPrice <= parseFloat(searchMax));
+    return marcaMatch && modeloMatch && anioMatch && kilometrajeMatch && combustibleMatch && importadoMatch && precioMatch;
   });
 
   // renderizamos la vista
@@ -239,7 +111,7 @@ const Cotizar = () => {
                 <th>Kilometraje</th>
                 <th>Combustible</th>
                 <th>Importado</th>
-                <th>Precio Base</th>
+                <th>Precio Venta</th>
                 <th>Cotizar</th>
               </tr>
             </thead>
@@ -255,8 +127,9 @@ const Cotizar = () => {
                     value={searchAnio}
                     onChange={searcher}
                     type="text"
-                    placeholder="Buscar por Año"
+                    placeholder="Buscar Año"
                     className="form-control"
+                    style={{ padding: 6 }}
                   />
                 </th>
                 <th>
@@ -265,8 +138,9 @@ const Cotizar = () => {
                     value={searchMarca}
                     onChange={searcher}
                     type="text"
-                    placeholder="Buscar por Marca"
+                    placeholder="Buscar Marca"
                     className="form-control"
+                    style={{ padding: 6 }}
                   />
                 </th>
                 <th>
@@ -275,8 +149,9 @@ const Cotizar = () => {
                     value={searchModelo}
                     onChange={searcher}
                     type="text"
-                    placeholder="Buscar por Modelo"
+                    placeholder="Buscar Modelo"
                     className="form-control"
+                    style={{ padding: 6 }}
                   />
                 </th>
                 <th>
@@ -285,8 +160,9 @@ const Cotizar = () => {
                     value={searchKilometraje}
                     onChange={searcher}
                     type="text"
-                    placeholder="Buscar por Kilometraje"
+                    placeholder="Buscar Kilometraje"
                     className="form-control"
+                    style={{ padding: 6 }}
                   />
                 </th>
                 <th>
@@ -295,8 +171,9 @@ const Cotizar = () => {
                     value={searchCombustible}
                     onChange={searcher}
                     type="text"
-                    placeholder="Buscar por Combustible"
+                    placeholder="Buscar Combustible"
                     className="form-control"
+                    style={{ padding: 6 }}
                   />
                 </th>
                 <th>
@@ -305,16 +182,35 @@ const Cotizar = () => {
                     value={searchImportado}
                     onChange={searcher}
                     type="text"
-                    placeholder="Buscar por Importado"
+                    placeholder="Buscar Importado"
                     className="form-control"
+                    style={{ padding: 6 }}
                   />
                 </th>
-                <th />
+                <th style={{ display: 'flex', alignItems: 'center' }}>
+                  <input
+                    name="searchMin"
+                    value={searchMin}
+                    onChange={searcher}
+                    type="text"
+                    placeholder="Min"
+                    className="form-control"
+                    style={{ padding: '6px 4px', width: 100, marginRight: 2 }}
+                  />
+                  <input
+                    name="searchMax"
+                    value={searchMax}
+                    onChange={searcher}
+                    type="text"
+                    placeholder="Max"
+                    className="form-control"
+                    style={{ padding: 6, width: 120 }}
+                  />
+                </th>
                 <th />
               </tr>
             </thead>
             {/*------------------------*/}
-
             <tbody>
               {results.map((user) => (
                 <tr key={user.plate}>
@@ -325,7 +221,9 @@ const Cotizar = () => {
                   <td>{user.model}</td>
                   <td>{user.kilometers}</td>
                   <td>{user.fuelType}</td>
-                  <td>{user.origin === 'IMPORTADO' ? 'Si' : 'No'}</td>
+                  <td>
+                    {user.origin}
+                  </td>
                   <td>{user.sellPrice}</td>
 
                   <td>

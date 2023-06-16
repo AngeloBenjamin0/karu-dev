@@ -22,8 +22,7 @@ const AcordeonObservaciones = () => (
       </AccordionSummary>
       <AccordionDetails>
         <Typography>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
+          Este vehiculo no posee detalles reelevantes.
         </Typography>
       </AccordionDetails>
     </Accordion>

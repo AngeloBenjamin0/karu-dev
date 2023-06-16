@@ -1,70 +1,36 @@
 /* eslint-disable react/prop-types */
-/*
-
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
+import React from 'react';
+import { Slider, Box } from '@mui/material';
 
 const marks = [
   {
     value: 1000000,
-    label: '$ 1M',
+    label: '1M',
   },
   {
-    value: 8000000,
-    label: '$ 8M',
+    value: 9000000,
+    label: '9M',
   },
   {
-    value: 18000000,
-    label: '$ 18M',
+    value: 15000000,
+    label: '15M',
   },
   {
-    value: 30000000,
-    label: '$ 30M',
+    value: 25000000,
+    label: '25M',
   },
 ];
 
-function valuetext(value) {
-  return `${value}`;
-}
-
-const SliderProton = () => {
-  const [value, setValue] = React.useState([3000000, 20000000]);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  return (
-    <Box sx={{ width: 200 }}>
-      <Slider
-        getAriaLabel={() => 'Temperature range'}
-        value={value}
-        onChange={handleChange}
-        valueLabelDisplay="auto"
-        getAriaValueText={valuetext}
-        min={1000000}
-        max={30000000}
-        marks={marks}
-      />
-    </Box>
-  );
-};
-
-export default SliderProton;
-*/
-
-import React from 'react';
-import { Slider, Box } from '@mui/material';
-
 const SliderProton = ({ value, changePrice }) => (
-  <Box sx={{ width: 1 }}>
+  <Box sx={{ width: 230 }}>
+    <p>Rango de precio</p>
     <Slider
       value={value}
       onChange={changePrice}
-      valueLabelDisplay="on"
-      min={1000000}
-      max={30000000}
+      valueLabelDisplay="auto"
+      min={400000}
+      max={25000000}
+      marks={marks}
     />
   </Box>
 );

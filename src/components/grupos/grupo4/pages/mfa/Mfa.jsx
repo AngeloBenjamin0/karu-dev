@@ -1,7 +1,8 @@
-/*eslint-disable */
+/* eslint-disable */
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UsersContext';
 import '../../assets/css/formMfa.css';
+import Roles from '../../../../roles';
 import {
   Alert,
   Button,
@@ -23,6 +24,9 @@ const Mfa = () => {
     login,
     navigate,
     userType,
+    setIsAuthenticated,
+    userId,
+    userBranch,
   } = useContext(UserContext);
   const [isValidToken, setIsValidToken] = useState(false);
 
@@ -30,15 +34,31 @@ const Mfa = () => {
     e.preventDefault();
     if (await authToken({ username, password, twoFactorCode })) {
       setIsValidToken(true);
+      setIsAuthenticated(true);
     }
   };
 
   useEffect(() => {
     if (isValidToken) {
-      const Loggeduser = JSON.stringify({ username, password, type: userType });
-      cookie.set('user', Loggeduser, { maxAge: 300 });
+      const loggedUser = JSON.stringify({
+        username,
+        password,
+        type: userType,
+        id: userId,
+        branch: userBranch,
+      });
+      const sevenDaysInSeconds = 7 * 24 * 60 * 60;
+
+      cookie.set('user', loggedUser, { maxAge: sevenDaysInSeconds });
+
       login();
-      navigate('/');
+      if (userType === Roles.SUPERVISOR_TECNICO) {
+        navigate('/reportes');
+      } else if (userType === Roles.TECNICO) {
+        navigate('/dashboard');
+      } else {
+        navigate('/');
+      }
     }
   }, [isValidToken]);
 
