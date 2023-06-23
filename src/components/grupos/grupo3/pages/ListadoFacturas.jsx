@@ -172,10 +172,10 @@ const ListadoFacturas = () => {
     setOpenDialogAnularFactura(false);
   };
 
-  const handleAnularFactura = async () => {
+  const handleAnularFactura = () => {
     if (selectedFactura.estado === 'PENDIENTE') {
       try {
-        await FacturaService.anularFactura(selectedFactura.id);
+        FacturaService.anularFactura(selectedFactura.id);
         setShowSuccessSnackbar(true);
       } catch (error) {
         setErrorMessage(error.message);
@@ -215,6 +215,10 @@ const ListadoFacturas = () => {
       {
         accessorKey: 'clienteDni',
         header: 'DNI cliente',
+      },
+      {
+        accessorKey: 'estado',
+        header: 'Estado',
       },
       {
         accessorKey: 'clientePlan',
@@ -364,6 +368,7 @@ const ListadoFacturas = () => {
               <br />
               Tasa de Interes:
               {plan.tasaInteres}
+              %
               <br />
               Monto de intereses:
               {plan.montoInteres}
@@ -479,10 +484,10 @@ const ListadoFacturas = () => {
         </DialogActions>
       </Dialog>
       <Dialog open={openDialogAnularFactura} onClose={handleCloseDialogAnularFactura}>
-        <DialogTitle>Confirmar Anulación de Reserva</DialogTitle>
+        <DialogTitle>Confirmar Anulación de Factura</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            ¿Estás seguro de que quieres anular esta reserva?
+            ¿Estás seguro de que quieres anular esta factura?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -496,6 +501,8 @@ const ListadoFacturas = () => {
       </Dialog>
       <Snackbar
         open={showInfoSnackbar}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
         style={{
           position: 'fixed',
           left: '50%',
@@ -541,6 +548,8 @@ const ListadoFacturas = () => {
 
       <Snackbar
         open={showErrorSnackbar}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
         style={{
           position: 'fixed',
           left: '50%',
@@ -556,8 +565,8 @@ const ListadoFacturas = () => {
               <AlertTitle>Error</AlertTitle>
               Hubo un
               <strong> error al intentar anular la factura </strong>
-              Por favor intente mas tarde o refresque la pagina. Vea el error descripto
-              debajo para mas información.
+              <br />
+              Vea el error descripto debajo para mas información.
               <br />
               <strong> Error: </strong>
               {errorMessage}

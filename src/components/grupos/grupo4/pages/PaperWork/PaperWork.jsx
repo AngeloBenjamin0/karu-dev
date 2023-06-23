@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Paper,
@@ -20,7 +21,7 @@ import {
 
 const defaultState = {
   plate: '',
-  infractions: null,
+  infractions: true,
   debt: 0,
   vpa: null,
   rva: null,
@@ -112,6 +113,7 @@ const PaperWork = () => {
           </Button>
           <Alert
             severity="error"
+            onClose={() => {setSpanPaperWorkError(false)}}
             style={
               showSpanPaperWorkError
                 ? { display: 'block' }
@@ -120,9 +122,15 @@ const PaperWork = () => {
           >
             {paperWorkMessageError}
           </Alert>
-          <Link className="vehicle-container__form-a" to="/">
-            <p>Volver al inicio</p>
-          </Link>
+          <Grid container justifyContent="center">
+            <Grid item>
+              <Box display="inline-block">
+                <Link className="vehicle-container__form-a" to={'/'}>
+                  <p>Volver al inicio</p>
+                </Link>
+              </Box>
+            </Grid>
+          </Grid>
         </Stack>
       </Paper>
     </>

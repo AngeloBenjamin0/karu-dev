@@ -21,7 +21,6 @@ const FiltroDeVehiculos = () => {
   const [selectedKM, setSelectedKM] = useState([100, 300000]);
 
   const [vehiculosData, setVehiculos] = useState([]);
-  console.log(vehiculosData);
 
   // aca deberia inicializar el hook con el data importado de la api.
   const [list, setList] = useState([]);
@@ -71,14 +70,15 @@ const FiltroDeVehiculos = () => {
     }
     // filtra por tipo gnc
     if (categoriaGNCSeleccionada) {
-      updatedList = updatedList.filter((item) => ((categoriaSeleccionada === 'TODOS')
-       || ((categoriaSeleccionada !== 'TODOS')
-      && (item.gnc === categoriaGNCSeleccionada))));
+      updatedList = updatedList.filter((item) => ((categoriaGNCSeleccionada === 'TODOS')
+       || ((categoriaGNCSeleccionada !== 'TODOS') && ((categoriaGNCSeleccionada === 'CON GNC') && item.gnc))
+       || ((categoriaGNCSeleccionada !== 'TODOS') && ((categoriaGNCSeleccionada === 'SIN GNC') && (!item.gnc)))
+      ));
     }
     // filtra por origen
     if (categoriaOrigenSeleccionada) {
-      updatedList = updatedList.filter((item) => ((categoriaSeleccionada === 'TODOS')
-       || ((categoriaSeleccionada !== 'TODOS')
+      updatedList = updatedList.filter((item) => ((categoriaOrigenSeleccionada === 'TODOS')
+       || ((categoriaOrigenSeleccionada !== 'TODOS')
       && (item.origin === categoriaOrigenSeleccionada))));
     }
 

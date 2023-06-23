@@ -9,6 +9,7 @@ import {
     Box,
     Button,
     FormControl,
+    Grid,
     InputLabel,
     MenuItem,
     Paper,
@@ -58,10 +59,16 @@ const CreditAnalysis = () => {
     };
 
     const onChange = (e) => {
+      if(e.target.name === "totalIncome" || e.target.name === "debts" || e.target.name === "monthlyOutcome" || e.target.name === "familyMembersIncome"){
+        const floatNumber = parseFloat(e.target.value);
+        setCreditValues({ ...creditValues, [e.target.name]: floatNumber });
+
+      }else{
         setCreditValues({ ...creditValues, [e.target.name]: e.target.value });
-        showError(e, inputs);
-        setSpanAnalyzeCreditError(false);
-        setCreditScore(null);
+      }
+      showError(e, inputs);
+      setSpanAnalyzeCreditError(false);
+      setCreditScore(null);
     };
 
     return (
@@ -113,16 +120,22 @@ const CreditAnalysis = () => {
             </Button>
             {creditScore && (
               <Box sx={{ width: '100%', mt: 2 }}>
-                <Alert severity="info">
+                <Alert severity="info" onClose={() => {setCreditScore(null)}}>
                   <Typography variant="h6" component="div" sx={{ fontSize: '1.2rem', textAlign: 'center' }}>
                     El score crediticio es: {creditScore}
                   </Typography>
                 </Alert>
               </Box>
             )}
-            <Link to={'/'}>
-              <p>Volver al inicio</p>
-            </Link>
+            <Grid container justifyContent="center">
+              <Grid item>
+                <Box display="inline-block">
+                  <Link to={'/'}>
+                    <p>Volver al inicio</p>
+                  </Link>
+                </Box>
+              </Grid>
+            </Grid>
           </Stack>
         </Paper>
       );

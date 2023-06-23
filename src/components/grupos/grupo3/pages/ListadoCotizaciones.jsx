@@ -137,6 +137,10 @@ const ListadoCotizaciones = () => {
         header: 'Email',
       },
       {
+        accessorKey: 'cliente.dni',
+        header: 'DNI',
+      },
+      {
         accessorKey: 'patente',
         header: 'Patente',
       },
@@ -192,8 +196,8 @@ const ListadoCotizaciones = () => {
         initialState={{
           sorting: [
             {
-              id: 'id',
-              desc: false,
+              id: 'fecha',
+              desc: true,
             },
           ],
         }}

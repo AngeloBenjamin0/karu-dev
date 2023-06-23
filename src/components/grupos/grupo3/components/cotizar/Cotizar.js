@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-console */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
@@ -28,8 +27,6 @@ const Cotizar = () => {
   // datos que traemos
   const showData = async () => {
     const response = await VehiculoService.obtenerVehiculos();
-    // const data = await response.json();
-    console.log(response.data.result);
     setVehiculos(response.data.result);
   };
   // función de búsqueda
